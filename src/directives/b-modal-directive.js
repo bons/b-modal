@@ -8,7 +8,8 @@ class BModalDirective {
     this.restrict = 'EA'
     this.scope = {
       bModal : '@',
-      data   : '='
+      data   : '=',
+      avoidAutohide : '=?'
     }
     this.transclude = true
     this.controller = 'bModalController'
@@ -25,10 +26,12 @@ class BModalDirective {
       'z-index' : 9999
     })
 
-    elem.bind('click', () => {
-      ctrl.hide()
-      scope.$apply()
-    })
+    if (!scope.avoidAutohide) {
+      elem.bind('click', () => {
+        ctrl.hide()
+        scope.$apply()
+      })
+    }
 
     scope.$watch(() => ctrl.canShow(), (canShow) => {
       if (canShow) {
