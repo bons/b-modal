@@ -9,6 +9,7 @@ class BModalDirective {
     this.scope = {
       bModal : '@',
       data   : '=',
+      zIndex : '@',
       avoidAutohide : '=?'
     }
     this.transclude = true
@@ -23,7 +24,7 @@ class BModalDirective {
       top       : '0px',
       right     : '0px',
       bottom    : '0px',
-      'z-index' : 9999
+      'z-index' : scope.zIndex || 9999
     })
 
     if (!scope.avoidAutohide) {
