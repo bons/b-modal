@@ -32,6 +32,12 @@ class BModalDirective {
         ctrl.hide()
         scope.$apply()
       })
+      elem.bind('keydown', (evt) => {
+        if (evt.keyCode === 27) {
+          ctrl.hide()
+          scope.$apply()
+        }
+      })
     }
 
     scope.$watch(() => ctrl.canShow(), (canShow) => {
