@@ -1,5 +1,6 @@
 'use strict'
 import {directive} from 'ng-annotations'
+import angular from 'angular'
 
 @directive('bModal')
 class BModalDirective {
@@ -32,24 +33,28 @@ class BModalDirective {
         ctrl.hide()
         scope.$apply()
       })
-      elem.bind('keydown', (evt) => {
-        if (evt.keyCode === 27) {
-          ctrl.hide()
-          scope.$apply()
-        }
-      })
+    }
+
+    function onKeydown (evt) {
+      if (evt.keyCode === 27) {
+        ctrl.hide()
+        scope.$apply()
+      }
     }
 
     scope.$watch(() => ctrl.canShow(), (canShow) => {
       if (canShow) {
         elem.css({'display' : 'block'})
+        if (!scope.avoidAutohide) document.addEventListener('keydown', onKeydown)
       } else {
         elem.css({'display' : 'none'})
+        if (!scope.avoidAutohide) document.removeEventListener('keydown', onKeydown)
       }
     })
 
     trans(scope, (clone) => {
       elem.append(clone)
+      angular.element(elem[0].firstChild).bind('click', ctrl.avoidHide)
     })
   }
 }
