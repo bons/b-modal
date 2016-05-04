@@ -7,15 +7,18 @@ class BModalController {
 
   constructor ($scope, bModalFactory) {
     this.name = $scope.bModal
+    this.$scope = $scope
     this.bModalFactory = bModalFactory
   }
 
   hide () {
     this.bModalFactory.hide(this.name)
+    this.$scope.$emit(`bModal.hide.${this.name}`)
   }
 
   show () {
     this.bModalFactory.show(this.name)
+    this.$scope.$emit(`bModal.show.${this.name}`)
   }
 
   canShow () {
